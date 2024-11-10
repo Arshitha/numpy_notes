@@ -16,7 +16,7 @@ tags:
 		- shape manipulation and more
 
 ## `ndarray` object 
-- ***core*** of NumPy package
+- ***core*** to NumPy library
 - encapsulates n-dimensional arrays of homogeneous data types 
 - many of the operations on these arrays are performed in compiled code performance aka very fast 
 
@@ -68,8 +68,86 @@ Core to NumPy's computational efficiency are:
 2. Broadcasting - Term used to refer to the implicit element-by-element behavior of operations. 
 
 
+[Notebook](https://github.com/Arshitha/numpy_notes/blob/main/quickstart.ipynb) that partially follows along the [Quickstart guide](https://numpy.org/doc/stable/user/quickstart.html) on the official NumPy docs site. Rest of the notes are in this README. 
 
+## Basic operations
+- Arithmetic operators on arrays apply _elementwise_. A new array is created and filled with the result.
+- Unlike in many matrix languages, the product operator `*` operates elementwise in NumPy arrays. The matrix product can be performed using the `@` operator (in python >=3.5) or the `dot` function or method.
+```python
+A = np.array([[1, 1],
+              [0, 1]])
+B = np.array([[2, 0],
+              [3, 4]])
+A * B     # elementwise product
+array([[2, 0],
+       [0, 4]])
+A @ B     # matrix product
+array([[5, 4],
+       [3, 4]])
+A.dot(B)  # another matrix product
+array([[5, 4],
+       [3, 4]])
+```
+- Some operations, such as `+=` and `*=`, act in place to modify an existing array rather than create a new one.
+- When operating with arrays of different types, the type of the resulting array corresponds to the more general or precise one (a behavior known as upcasting).
+```python
+>> a = np.ones(3, dtype=np.int32)
+>> b = np.linspace(0, pi, 3)
+
+>> b.dtype.name
+>> 'float64'
+
+>> c = a + b
+>> c
+array([1.        , 2.57079633, 4.14159265])
+
+>> c.dtype.name
+'float64'
+
+>> d = np.exp(c * 1j)
+>> d
+array([ 0.54030231+0.84147098j, -0.84147098+0.54030231j,
+       -0.54030231-0.84147098j])
+
+>> d.dtype.name
+'complex128'
+```
+
+- Many unary operations, such as computing the sum of all the elements in the array, are implemented as methods of the `ndarray` class.
+```python
+>> a = rg.random((2, 3))
+>> a
+array([[0.82770259, 0.40919914, 0.54959369],
+       [0.02755911, 0.75351311, 0.53814331]])
+
+>> a.sum()
+3.1057109529998157
+>> a.min()
+0.027559113243068367
+```
+
+- By default, these operations apply to the array as though it were a list of numbers, regardless of its shape. However, by specifying the `axis` parameter you can apply an operation along the specified axis of an array:
+```python
+>> b = np.arange(12).reshape(3, 4)
+>> b
+array([[ 0,  1,  2,  3],
+       [ 4,  5,  6,  7],
+       [ 8,  9, 10, 11]])
+>> b.sum(axis=0)  # sum of each column
+array([12, 15, 18, 21])
+>> b.min(axis=1)     # min of each row
+array([0, 4, 8])
+>> b.cumsum(axis=1)  # cumulative sum along each row
+array([[ 0,  1,  3,  6],
+       [ 4,  9, 15, 22],
+       [ 8, 17, 27, 38]])
+```
+
+
+## Universal functions
+
+NumPy provides familiar mathematical functions such as sin, cos, and exp. In NumPy, these are called “universal functions” (`ufunc`). Within NumPy, these functions operate element-wise on an array, producing an array as output.
 
 ## Sources 
 1. [What is NumPy?](https://numpy.org/doc/stable/user/whatisnumpy.html)
-2. 
+2. [Quickstart guide](https://numpy.org/doc/stable/user/quickstart.html)
