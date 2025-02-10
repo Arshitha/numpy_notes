@@ -5,8 +5,6 @@ tags:
   - DL
 ---
 
-# NumPy
-
 - NumPy is a scientific computing python library.
 - It provides
   - a multidimensional array object
